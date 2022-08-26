@@ -1,7 +1,10 @@
-# Vue 3 + Vite
+# Fuse-8, тестовое задание
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Development
 
-## Recommended IDE Setup
+```
+yarn
+yarn dev
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+<a href="http://imatteru-fuse-8.surge.sh" target="_blank">Live demo</a>
