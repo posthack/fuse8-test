@@ -1,41 +1,38 @@
+<script setup>
+import { useStore } from "vuex";
+import { reactive, onMounted } from "vue";
+
+import DevsList from "@/components/DevsList.vue";
+
+const store = useStore();
+const fetchDevs = () => {
+  store.dispatch("fetchDevs");
+};
+
+const state = reactive({
+  filter: "",
+});
+
+onMounted(fetchDevs);
+</script>
+
 <template>
   <div class="app">
     <div class="container">
       <h1 class="devs-title">Our Latest Developments</h1>
       <div class="devs-filter">
-        <div class="devs-filter__label">Filter</div>
-        <input type="text" class="devs-filter__input" v-model="filter" />
+        <label class="devs-filter__label" for="filter">Filter</label>
+        <input
+          type="text"
+          class="devs-filter__input"
+          v-model="state.filter"
+          id="filter"
+        />
       </div>
-      <devs-list :filter="filter" />
+      <devs-list :filter="state.filter" />
     </div>
   </div>
 </template>
-
-<script>
-import { mapActions } from "vuex";
-
-import DevsList from "@/components/DevsList.vue";
-import DevsFilter from "@/components/DevsFilter.vue";
-
-export default {
-  name: "App",
-  components: {
-    DevsList,
-    DevsFilter,
-  },
-  data() {
-    return {
-      filter: "",
-    };
-  },
-  methods: {
-    ...mapActions(["fetchDevs"]),
-  },
-  mounted() {
-    this.fetchDevs();
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .app {

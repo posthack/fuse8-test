@@ -1,5 +1,37 @@
+<script setup>
+import { useStore } from "vuex";
+import { computed } from "vue";
+
+import { MIN_FILTER_LENGTH } from "@/common/constants.js";
+import { formatPrice } from "@/helpers/format.js";
+import IconChevron from "@/assets/icons/IconChevron.vue";
+import IconLoading from "@/assets/icons/IconLoading.vue";
+
+const store = useStore();
+
+const props = defineProps({
+  filter: {
+    type: String,
+    default: "",
+  },
+});
+
+const isIndependentLiving = (type) => type === "IndependentLiving";
+const isSupportAvailable = (type) => type === "SupportAvailable";
+const getDevs = computed(() => store.getters.getDevs);
+const getFilteredDevs = computed(() => {
+  if (props.filter.length >= MIN_FILTER_LENGTH) {
+    return getDevs.value.filter((el) =>
+      el.title.toLowerCase().includes(props.filter.toLowerCase())
+    );
+  } else {
+    return getDevs.value;
+  }
+});
+</script>
+
 <template>
-  <div>
+  <div v-if="getFilteredDevs.length">
     <div class="devs-list">
       <a
         v-for="el in getFilteredDevs"
@@ -15,12 +47,12 @@
           <div
             :class="{
               'devs-item__photo-label': true,
-              _blue: el.type === 'IndependentLiving',
-              _orange: el.type === 'SupportAvailable',
+              _blue: isIndependentLiving(el.type),
+              _orange: isSupportAvailable(el.type),
             }"
           >
             {{
-              el.type === "IndependentLiving"
+              isIndependentLiving(el.type)
                 ? "Independent living"
                 : "Support Available"
             }}
@@ -41,43 +73,10 @@
       <button class="devs-more__button">See more <icon-chevron /></button>
     </div>
   </div>
+  <div v-else>
+    <icon-loading />
+  </div>
 </template>
-
-<script>
-import { mapGetters } from "vuex";
-
-import IconChevron from "@/assets/icons/IconChevron.vue";
-
-export default {
-  name: "DevsList",
-  components: {
-    IconChevron,
-  },
-  props: {
-    filter: {
-      type: String,
-      default: "",
-    },
-  },
-  computed: {
-    ...mapGetters(["getDevs"]),
-    getFilteredDevs() {
-      if (this.filter.length >= 3) {
-        return this.getDevs.filter((el) => {
-          return el.title.toLowerCase().includes(this.filter.toLowerCase());
-        });
-      } else {
-        return this.getDevs;
-      }
-    },
-  },
-  methods: {
-    formatPrice(number) {
-      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .devs-list {

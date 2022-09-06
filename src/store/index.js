@@ -1,23 +1,30 @@
 import { createStore } from "vuex";
+import { API_DEVELOPMENTS_URL } from "@/common/config.js";
 
-const apiURL = "https://603e38c548171b0017b2ecf7.mockapi.io/homes";
+const state = {
+  devs: [],
+};
+
+const getters = {
+  getDevs: (state) => state.devs,
+};
+
+const mutations = {
+  setDevs(state, payload) {
+    state.devs = payload;
+  },
+};
+
+const actions = {
+  async fetchDevs({ commit }) {
+    const data = await (await fetch(API_DEVELOPMENTS_URL)).json();
+    commit("setDevs", data);
+  },
+};
 
 export default createStore({
-  state: {
-    devs: [],
-  },
-  mutations: {
-    setDevs(state, payload) {
-      state.devs = payload;
-    },
-  },
-  actions: {
-    async fetchDevs({ commit }) {
-      const data = await (await fetch(apiURL)).json();
-      commit("setDevs", data);
-    },
-  },
-  getters: {
-    getDevs: (state) => state.devs,
-  },
+  state,
+  mutations,
+  actions,
+  getters,
 });
