@@ -1,12 +1,14 @@
-# Fuse-8, тестовое задание
+# Fuse-8 test
 
-## <a href="http://imatteru-fuse8.surge.sh" target="_blank">Live demo</a>
+Тестовое задание для fuse-8
 
-<img src="https://i.im.ge/2022/09/06/OWXLWS.Vite-Vue.png" />
+![Preview](docs/preview.png)
 
----
+## [Live demo](https://imatteru-fuse8.netlify.app)
 
-### Development
+<br><br>
+
+### Development:
 
 ```
 yarn
